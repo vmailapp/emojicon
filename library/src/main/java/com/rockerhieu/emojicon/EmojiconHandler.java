@@ -1377,9 +1377,11 @@ public final class EmojiconHandler {
      * @param context
      * @param text
      * @param emojiSize
+     * @param emojiAlignment
+     * @param textSize
      */
-    public static void addEmojis(Context context, Spannable text, int emojiSize) {
-        addEmojis(context, text, emojiSize, 0, -1);
+    public static void addEmojis(Context context, Spannable text, int emojiSize, int emojiAlignment, int textSize) {
+        addEmojis(context, text, emojiSize, emojiAlignment, textSize, 0, -1, false);
     }
 
     /**
@@ -1388,10 +1390,46 @@ public final class EmojiconHandler {
      * @param context
      * @param text
      * @param emojiSize
+     * @param emojiAlignment
+     * @param textSize
      * @param index
      * @param length
      */
-    public static void addEmojis(Context context, Spannable text, int emojiSize, int index, int length) {
+    public static void addEmojis(Context context, Spannable text, int emojiSize, int emojiAlignment, int textSize, int index, int length) {
+        addEmojis(context, text, emojiSize, emojiAlignment, textSize, index, length, false);
+    }
+
+    /**
+     * Convert emoji characters of the given Spannable to the according emojicon.
+     *
+     * @param context
+     * @param text
+     * @param emojiSize
+     * @param emojiAlignment
+     * @param textSize
+     * @param useSystemDefault
+     */
+    public static void addEmojis(Context context, Spannable text, int emojiSize, int emojiAlignment, int textSize, boolean useSystemDefault) {
+        addEmojis(context, text, emojiSize, emojiAlignment, textSize, 0, -1, useSystemDefault);
+    }
+
+    /**
+     * Convert emoji characters of the given Spannable to the according emojicon.
+     *
+     * @param context
+     * @param text
+     * @param emojiSize
+     * @param emojiAlignment
+     * @param textSize
+     * @param index
+     * @param length
+     * @param useSystemDefault
+     */
+    public static void addEmojis(Context context, Spannable text, int emojiSize, int emojiAlignment, int textSize, int index, int length, boolean useSystemDefault) {
+        if (useSystemDefault) {
+            return;
+        }
+
         int textLength = text.length();
         int textLengthToProcessMax = textLength - index;
         int textLengthToProcess = length < 0 || length >= textLengthToProcessMax ? textLength : (length+index);
@@ -1506,7 +1544,7 @@ public final class EmojiconHandler {
             }
 
             if (icon > 0) {
-                text.setSpan(new EmojiconSpan(context, icon, emojiSize), i, i + skip, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                text.setSpan(new EmojiconSpan(context, icon, emojiSize, emojiAlignment, textSize), i, i + skip, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
         }
     }
