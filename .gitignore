@@ -10,3 +10,9 @@ library/src/main/bin
 library/src/main/gen
 rockerhieu.keystore
 build
+
+
+*.iml
+/.idea/libraries
+/build
+/captures
